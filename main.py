@@ -17,6 +17,7 @@ In case the data is empty nor there is duplicate in it,
 this method will take care of it.
 """
 
+
 def check_data_validation(df: pd.DataFrame) -> bool:
     # check if data is empty
     if df.empty:
@@ -35,7 +36,7 @@ def check_data_validation(df: pd.DataFrame) -> bool:
 
     # Check that all the collected data is from the last 24 hours
     ystday = datetime.datetime.now() - datetime.timedelta(days=1)
-    ystday = ystday.replace(hour=0,minute=0,second=0,microsecond=0)
+    ystday = ystday.replace(hour=0, minute=0, second=0, microsecond=0)
 
     timestamps2 = df["timestamps"].tolist()
     for timestamp in timestamps2:
@@ -58,7 +59,8 @@ if __name__ == "__main__":
     yestrday_unix = int(yestrday.timestamp()) * 1000
 
     # request URL
-    request = requests.get("https://api.spotify.com/v1/me/player/recently-played?after={time}".format(time=yestrday_unix), headers=headers)
+    request = requests.get(
+        "https://api.spotify.com/v1/me/player/recently-played?after={time}".format(time=yestrday_unix), headers=headers)
 
     data = request.json()
     # lists
@@ -75,13 +77,13 @@ if __name__ == "__main__":
         timestamps.append(song["played_at"][0:10])
 
     song_dictonary = {
-        "song_name" : song_names,
-        "artist_name" : artist_names,
-        "played_at" : played_at_list,
-        "timestamps" : timestamps
+        "song_name": song_names,
+        "artist_name": artist_names,
+        "played_at": played_at_list,
+        "timestamps": timestamps
     }
     # building a panda frame for the retrieved data
-    song_df = pd.DataFrame(song_dictonary, columns= ["song_name", "artist_name", "played_at", "timestamps"])
+    song_df = pd.DataFrame(song_dictonary, columns=["song_name", "artist_name", "played_at", "timestamps"])
 
     if check_data_validation(song_df):
         print("Data is valid, proceed to Load stage")
