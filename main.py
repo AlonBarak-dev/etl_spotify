@@ -37,8 +37,7 @@ def check_data_validation(df: pd.DataFrame) -> bool:
     ystday = datetime.datetime.now() - datetime.timedelta(days=1)
     ystday = ystday.replace(hour=0,minute=0,second=0,microsecond=0)
 
-    timestamps2 = df["timestamps" \
-                     ""].tolist()
+    timestamps2 = df["timestamps"].tolist()
     for timestamp in timestamps2:
         if datetime.datetime.strptime(timestamp, '%Y-%m-%d') != ystday:
             raise Exception("One or more songs are not from yesterday")
