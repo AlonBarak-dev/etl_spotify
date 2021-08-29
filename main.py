@@ -9,7 +9,41 @@ import sqlite3
 
 DATABASE_LOCATION = "sqlite://my_played_tracks.sqlite"
 USER_NAME = "whsmobofbuwl6q10ily711jo9"
-TOKEN = "BQA_ovyAFMI2RUZ5qNYVEUa6iBWKynNovOhY89-fBaq8rFKNJekuZ03aqTNwkzpnIaks3A_rxTgrfqN7SY82iAAng8ltHCHXo6AJXBVHiYWTqnDtUjiteHA268zqCPuWtMmqmpAGCye5eNQhzCUNK-oBmhsiDj0DVg2e"
+TOKEN = "BQAgzS_eWK8NdJFrd1Jr8SlpjTSuORx318Ft1v9bz4oa4ugD4JZoK2DaC5_LqMkfVyVatJeQE_ap2ErUfEnfKcF4iALyRSqh9jJruHnh11FEbzne7UNkSMvUFM03egKKObFeWVogRLPgz3C68K1Syjqqn0Gx2dxrCOt2"
+
+""" 
+This method is responsible on the validation of the data.
+In case the data is empty nor there is duplicate in it, 
+this method will take care of it.
+"""
+
+def check_data_validation(df: pd.DataFrame) -> bool:
+    # check if data is empty
+    if df.empty:
+        print("No songs downloaded.")
+        return False
+
+    # check for duplicates -> played_at as primary key
+    if pd.Series(df['played_at']).is_unique:
+        pass
+    else:
+        raise Exception("Primary Key Check is violated! There are duplicates")
+
+    # check for Nulls
+    if df.isnull().values.any():
+        raise Exception("Null value found!")
+
+    # Check that all the collected data is from the last 24 hours
+    ystday = datetime.datetime.now() - datetime.timedelta(days=1)
+    ystday = ystday.replace(hour=0,minute=0,second=0,microsecond=0)
+
+    timestamps2 = df["timestamps" \
+                     ""].tolist()
+    for timestamp in timestamps2:
+        if datetime.datetime.strptime(timestamp, '%Y-%m-%d') != ystday:
+            raise Exception("One or more songs are not from yesterday")
+    return True
+
 
 if __name__ == "__main__":
 
@@ -49,5 +83,8 @@ if __name__ == "__main__":
     }
     # building a panda frame for the retrieved data
     song_df = pd.DataFrame(song_dictonary, columns= ["song_name", "artist_name", "played_at", "timestamps"])
+
+    if check_data_validation(song_df):
+        print("Data is valid, proceed to Load stage")
 
     print(song_df)
