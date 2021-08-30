@@ -8,15 +8,15 @@ import datetime
 import sqlite3
 
 DATABASE_LOCATION = "sqlite:///my_played_tracks.sqlite"
-USER_NAME = "whsmobofbuwl6q10ily711jo9"
-TOKEN = "BQDo_Zn4wBwMJ57PLjCvnfd8lRb-gMIeoTmfkMdYsnDb40DvBbmnJ3Ph73H5v7h2iwFThOlkctQkNvypj0jWm-rEWaAeDG3_CHW4pn1nDlEw3D3xuWtMMSJbYHS5grN8Ts5eXAZHNHu3DoTnVwbaR-GAaTJuN9TSBdGo"
+USER_NAME = "whsmobofbuwl6q10ily711jo9"  # User name on spotify
+TOKEN = "BQAWlHv6wHxGxMYBiMhtjYJGvfFAZMrfzkcT0S9tAP-500BEUbY2gYi2GrePFC-4sKPyMcnR8kPwFOGnNQVvMmmRycUCAv-ijUP55VyaAx1_eFNmCGsKwi6GMuYp3qSUVzCqHTEgG-Cruuab9zYLWn5JG3v3XGPyIhDc"
+
 
 """ 
 This method is responsible on the validation of the data.
 In case the data is empty nor there is duplicate in it, 
 this method will take care of it.
 """
-
 
 def check_data_validation(df: pd.DataFrame) -> bool:
     # check if data is empty
@@ -93,6 +93,7 @@ if __name__ == "__main__":
     cont = sqlite3.connect('my_played_tracks.sqlite')
     cursor = cont.cursor()
 
+    # creating a table for the data or add data in case the table already exists
     sql_query = """
     CREATE TABLE IF NOT EXISTS my_played_tracks(
         song_name VARCHAR(200),
@@ -106,6 +107,7 @@ if __name__ == "__main__":
     cursor.execute(sql_query)
     print("Opened database successfully")
 
+    # load data to our database
     try:
         song_df.to_sql("my_played_tracks", engine, index=False, if_exists='append')
     except:
