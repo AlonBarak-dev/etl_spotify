@@ -9,7 +9,7 @@ import sqlite3
 
 DATABASE_LOCATION = "sqlite:///my_played_tracks.sqlite"
 USER_NAME = "whsmobofbuwl6q10ily711jo9"  # User name on spotify
-TOKEN = "BQAWlHv6wHxGxMYBiMhtjYJGvfFAZMrfzkcT0S9tAP-500BEUbY2gYi2GrePFC-4sKPyMcnR8kPwFOGnNQVvMmmRycUCAv-ijUP55VyaAx1_eFNmCGsKwi6GMuYp3qSUVzCqHTEgG-Cruuab9zYLWn5JG3v3XGPyIhDc"
+TOKEN = "BQA3yOX1oePqD_4wlDqzP7IXexroUS5s5ZoAOknePlGilgXEP-Cv6RSr2eBVxIhvqhOgzLcbZhyA4ka1crtVZse8kwG59AXYbm7yrRIsVvh3ykxnPETF_Yrgp1hVF-JsI2cd0hLktzEuj8PtUF9DJmweRJ3bh5cbsbtS"
 
 
 """ 
